@@ -3,7 +3,7 @@ streamlit
 sqlalchemy
 faiss-cpu
 transformers
-pytorch
+torch
 numpy
 pandas
 scikit-learn
