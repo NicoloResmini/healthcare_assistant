@@ -1,0 +1,10 @@
+flask
+streamlit
+sqlalchemy
+faiss-cpu
+transformers
+pytorch
+numpy
+pandas
+scikit-learn
+opencv-python
