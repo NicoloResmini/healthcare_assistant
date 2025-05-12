@@ -35,11 +35,14 @@ This project is a virtual assistant for the healthcare sector. It is designed to
 1. Clone the repository:
    ```bash
    git clone <repository-url>
+   cd healthcare_assistant
    ```
 
-2. Navigate to the project directory:
+2. Create and activate a virtual environment:
    ```bash
-   cd healthcare_assistant
+   python -m venv venv
+   source venv/bin/activate # Linux/macOS
+   venv\Scripts\activate # Windows
    ```
 
 3. Install dependencies:
@@ -47,7 +50,16 @@ This project is a virtual assistant for the healthcare sector. It is designed to
    pip install -r requirements.txt
    ```
 
-4. Run the application:
+4. Start backend:
    ```bash
-   python main.py
+   python api/app.py
+   ```
+   OR run a demo:
+   ```bash
+   python examples/run_demo.py
+   ```
+
+5. Start frontend:
+   ```bash
+   streamlit run frontend/app.py
    ```
