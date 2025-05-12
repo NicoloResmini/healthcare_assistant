@@ -119,6 +119,29 @@ def get_appointment(session: Session, appointment_id: int) -> Optional[Appointme
 def get_appointments_by_patient(session: Session, patient_id: int) -> List[Appointment]:
     return session.query(Appointment).filter(Appointment.patient_id == patient_id).all()
 
+def get_appointments_by_doctor_and_date(session, doctor_id: int, date: str) -> List[Appointment]:
+    appt_date = datetime.date.fromisoformat(date)
+    return session.query(Appointment).filter(
+        Appointment.doctor_id == doctor_id,
+        Appointment.date == appt_date,
+        Appointment.status == 'scheduled'
+    ).all()
+
+def get_available_slots(session, doctor_id: int, date: str,
+                        start_hour: int = 9, end_hour: int = 17,
+                        slot_duration_minutes: int = 60) -> List[str]:
+    slots = []
+    current = datetime.datetime.fromisoformat(date + 'T00:00')
+    current = current.replace(hour=start_hour, minute=0)
+    end = current.replace(hour=end_hour)
+    while current < end:
+        slots.append(current.strftime('%H:%M'))
+        current += datetime.timedelta(minutes=slot_duration_minutes)
+    booked = get_appointments_by_doctor_and_date(session, doctor_id, date)
+    booked_times = {a.time for a in booked}
+    free_slots = [s for s in slots if s not in booked_times]
+    return free_slots
+
 
 def update_appointment(session: Session, appointment_id: int, **kwargs) -> Optional[Appointment]:
     appt = get_appointment(session, appointment_id)
